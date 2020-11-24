@@ -68,10 +68,15 @@
             <input type="radio" name="rbpos" value="under">Below
           </form>
 
-          <form onchange="rtSize(this.rbsize.value)">
+          <form onchange="rtSize(this.rtsize.value)">
             <label>Ruby text size</label>
-            <input type="radio" name="rbsize" value="large" checked="checked">Large<br>
-            <input type="radio" name="rbsize" value="small">Small
+            <input type="radio" name="rtsize" value="large" checked="checked">Large<br>
+            <input type="radio" name="rtsize" value="small">Small
+          </form>
+
+          <form id="rbtest" onchange="rbSize(this.rbsize.value)" oninput="rbSize(this.rbsize.value)">
+            <label>Base text size</label>
+            <input type="range" name="rbsize" value="2" min="0.5" max="10" step="0.1">
           </form>
 
           <label>Text color</label>

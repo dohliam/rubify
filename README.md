@@ -1,6 +1,6 @@
 # Rubify - Ruby text converter
 
-Rubify is a fully offline, client-side, configurable [ruby text](https://en.wikipedia.org/wiki/Ruby_character) generator featuring multilingual demo text and PNG, SVG, and HTML output. You can download it and use it locally or visit the online demo [here](https://dohliam.github.io/rubify/).
+Rubify is a fully offline, client-side, configurable [ruby text](https://en.wikipedia.org/wiki/Ruby_character) text annotation generator featuring multilingual demo text and PNG, SVG, and HTML output. You can download it and use it locally or visit the online demo [here](https://dohliam.github.io/rubify/).
 
 For technical background on ruby text see the [documentation](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ruby) on MDN.
 
@@ -99,6 +99,10 @@ The default Ruby text size is set to `Large`. For example, the input text `ÈáçÂ∫
 If the text appears too crowded and/or interferes with the spacing of the base text it can be made more readable by reducing the size of the Ruby text. When the **Ruby text size** option is set to _Small_, the output of the previous example looks like this:
 
 ![Chinese text with small ruby transcription](output/png/chongqing_huoguo_small.png)
+
+### Base text size
+
+The size of the base text can be changed by adjusting the **Base text size** slider in the Options menu.
 
 ### Text and background colour
 

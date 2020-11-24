@@ -87,6 +87,12 @@ function rtSize(size) {
   rtsize.textContent = "rt {font-size: " + size + "}";
 }
 
+function rbSize(size) {
+  textout = document.getElementById("textout");
+  rbsval = document.getElementById("rbsval");
+  textout.style.fontSize = size + "em";
+}
+
 function rtCol(col) {
   rtcol = document.getElementById("style_rt_col");
   rtcol.textContent = "rt {color: " + col + "}";
