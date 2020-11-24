@@ -1,6 +1,6 @@
 # Rubify - Ruby text converter
 
-Rubify is a fully offline, client-side, configurable [ruby text](https://en.wikipedia.org/wiki/Ruby_character) generator featuring multilingual demo text and PNG, SVG, and HTML output.
+Rubify is a fully offline, client-side, configurable [ruby text](https://en.wikipedia.org/wiki/Ruby_character) generator featuring multilingual demo text and PNG, SVG, and HTML output. You can download it and use it locally or visit the online demo [here](https://dohliam.github.io/rubify/).
 
 For technical background on ruby text see the [documentation](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ruby) on MDN.
 
