@@ -45,6 +45,9 @@
       <textarea id="htmlcode" style="display:none">&nbsp;</textarea><br>
     </div>
 
+    <style id=style_rt_size></style>
+    <style id=style_rt_col></style>
+
     <section class="modal--show" id="modal-options" tabindex="-1"
       role="dialog" aria-labelledby="modal-label" aria-hidden="true">
       <div class="modal-inner">
@@ -53,29 +56,32 @@
         </header>
         <div class="modal-content">
 
-          <form onchange="changeMode()">
+          <form id="inmode" onchange="changeMode(this.inputmode.value)">
             <label>Input Mode</label>
             <input type="radio" name="inputmode" value="simple" checked="checked">Simple<br>
             <input type="radio" name="inputmode" value="complex">Complex
           </form>
 
-          <form onchange="changePos()">
+          <form onchange="rtPos(this.rbpos.value)">
             <label>Ruby position</label>
             <input type="radio" name="rbpos" value="over" checked="checked">Above<br>
             <input type="radio" name="rbpos" value="under">Below
           </form>
 
-          <form onchange="changeSize()">
+          <form onchange="rtSize(this.rbsize.value)">
             <label>Ruby text size</label>
             <input type="radio" name="rbsize" value="large" checked="checked">Large<br>
             <input type="radio" name="rbsize" value="small">Small
           </form>
 
           <label>Text color</label>
-          <input class="picker" value="#000" data-jscolor="" onchange="setTextColor(this.value)" oninput="setTextColor(this.value)">
+          <input class="picker" value="#000" data-jscolor="" onchange="textCol(this.value)" oninput="textCol(this.value)">
 
           <label>Background color</label>
-          <input class="picker" value="#FFF" data-jscolor="" onchange="setBgColor(this.value)" oninput="setBgColor(this.value)">
+          <input class="picker" value="#FFF" data-jscolor="" onchange="bgCol(this.value)" oninput="bgCol(this.value)">
+
+          <label>Ruby text color</label>
+          <input class="picker" value="#000" data-jscolor="" onchange="rtCol(this.value)" oninput="rtCol(this.value)">
 
           <label>Demo text language</label>
           <select name="demolang" id="demolang" onchange="demo()">

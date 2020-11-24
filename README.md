@@ -107,9 +107,14 @@ You can change the colour of the text as well as the background using the colour
 * Click on any colour in the pallette to select it
 * Adjust shading using the slider control on the right
 * You can also enter colour names or HEX codes directly in the box
-* Below is an example using the Japanese demo text and typing "blue" and "pink" into the text and background colour pickers respectively:
+
+Below is an example using the Japanese demo text and typing "blue" and "pink" into the text and background colour pickers respectively:
 
 ![](output/png/blue_pink_example.png)
+
+The colour of the ruby annotation text can optionally be changed separately from the base text. Below is an example using the default demo text with base text, ruby text, and background colour all set to different values:
+
+![](output/png/rt_col.png)
 
 ### Demo text language
 
@@ -141,8 +146,12 @@ Examples of output in both formats can be found in the `output` directory.
 
 * Vertical ruby text:
   * Since vertical ruby text (as is typical for example with [Bopomofo](https://en.wikipedia.org/wiki/Bopomofo)) is not yet supported by browsers, Rubify currently only works with horizontal text.
+  * There is a [proposed](https://drafts.csswg.org/css-ruby/#rubypos) `inter-character` value for the `ruby-position` element that would provide this, but no browser appears to support it yet.
 * RTC:
   * Rubify does not yet support the [Ruby text container element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rtc) (`<rtc>`). Browser support for this appears to be [limited to Firefox](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/rtc#Browser_compatibility) at the moment. Pull requests to add support for this are welcome!
+* ruby-position:
+  * The `ruby-position` CSS property is not supported by any mobile browsers other than Firefox (v38+).
+  * As a result, only the default value for `ruby-position` (i.e., `over`) is supported on these browsers.
 
 ## To do
 
@@ -151,6 +160,7 @@ Examples of output in both formats can be found in the `output` directory.
   * Base text character spacing
 * Interface localization
 * Live update as you type?
+* Logo & favicon
 
 ## Credits
 

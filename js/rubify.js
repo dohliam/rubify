@@ -7,7 +7,7 @@ function rubify() {
   mode = document.forms[0].inputmode.value;
   result = "<ruby>";
   if (mode == "simple") {
-    result += fuzzConv();
+    result += simpleConv();
   } else {
     result += complexConv();
   }
@@ -19,14 +19,14 @@ function rubify() {
   savesvg.style.display = "";
 }
 
-function fuzzConv() {
+function simpleConv() {
   rb = document.getElementById("rbinput").value;
   rt = document.getElementById("rtinput").value;
   rbArray = rb.split("");
   rtArray = rt.split(" ");
   rblen = rbArray.length;
   rtlen = rtArray.length;
-  fuzzout = "";
+  simpleout = "";
   if (rblen == "") {
     window.location = "#modal-empty";
   } else if (rblen != rtlen) {
@@ -35,10 +35,10 @@ function fuzzConv() {
     for (var i = 0; i < rblen; i++) {
       char = rbArray[i];
       tr = rtArray[i];
-      fuzzout += "<rb>" + char + "</rb><rp>(</rp><rt>" + tr + "</rt><rp>)</rp>";
+      simpleout += "<rb>" + char + "</rb><rp>(</rp><rt>" + tr + "</rt><rp>)</rp>";
     }
   }
-  return fuzzout;
+  return simpleout;
 }
 
 function complexConv() {
@@ -67,8 +67,7 @@ function toggleHtml() {
   }
 }
 
-function changeMode() {
-  mode = document.forms[0].inputmode.value;
+function changeMode(mode) {
   div = document.getElementById(mode);
   div.style.display = "";
   off = "simple";
@@ -78,31 +77,26 @@ function changeMode() {
   document.getElementById(off).style.display = "none";
 }
 
-function changePos() {
-  pos = document.forms[1].rbpos.value;
+function rtPos(pos) {
   div = document.getElementById("textout");
   div.style.rubyPosition = pos;
 }
 
-function changeSize() {
-  size = document.forms[2].rbsize.value;
-  rt = document.getElementsByTagName("rt");
-  for (i = 0; i < rt.length; i++) {
-    rt[i].style.fontSize = size;
-  }
+function rtSize(size) {
+  rtsize = document.getElementById("style_rt_size");
+  rtsize.textContent = "rt {font-size: " + size + "}";
 }
 
-function changeBg() {
-  col = document.forms[3].bgcol.value;
-  div = document.getElementById("textout");
-  div.style.backgroundColor = col;
+function rtCol(col) {
+  rtcol = document.getElementById("style_rt_col");
+  rtcol.textContent = "rt {color: " + col + "}";
 }
 
-function setBgColor(picker) {
+function bgCol(picker) {
   document.getElementById('textout').style.backgroundColor = picker;
 }
 
-function setTextColor(picker) {
+function textCol(picker) {
   document.getElementById('textout').style.color = picker;
 }
 
