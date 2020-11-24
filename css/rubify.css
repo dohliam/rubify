@@ -38,3 +38,9 @@ h2 {
 #simple {
   margin-top: 1em;
 }
+
+@media(max-width:767px) {
+ body {
+  padding:18px 18px;
+ }
+}
