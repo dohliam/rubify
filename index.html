@@ -1,210 +1,225 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
-    <title>Rubify - Ruby text annotation generator</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style type="text/css">
-    </style>
-    <link rel="stylesheet" type="text/css" href="css/tacit.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/modal.css" />
-    <link rel="stylesheet" type="text/css" href="css/rubify.css" />
-    <script src="js/dom-to-image.min.js" type="text/javascript"></script>
-    <script src="js/jscolor.min.js" type="text/javascript"></script>
-    <script src="js/rubify.js" type="text/javascript"></script>
-  </head>
-  <body>
-    <div id="header">
-      <h1>Rubify</h1>
-      <h2>Ruby text annotation generator</h2>
-      <a href="#modal-options" class="button call-modal"><button>Options</button></a>
-      <a href="#modal-help" class="button call-modal"><button>Help</button></a>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Rubify - Ruby text annotation generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css">
+  </style>
+  <link rel="stylesheet" type="text/css" href="./css/tacit.min.css" />
+  <link rel="stylesheet" type="text/css" href="./css/modal.css" />
+  <link rel="stylesheet" type="text/css" href="./css/rubify.css" />
+  <script src="https://cdn.jsdelivr.net/npm/dom-to-image@latest/src/dom-to-image.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@eastdesire/jscolor@latest/jscolor.min.js"></script>
+  <script type="module" async>
+    import rubifyGUI from './js/rubifyGUI.js';
+    new rubifyGUI().init();
+  </script>
+</head>
+
+<body>
+  <div id="header">
+    <h1>Rubify</h1>
+    <h2>Ruby text annotation generator</h2>
+    <a href="#modal-options" class="button call-modal"><button>Options</button></a>
+    <a href="#modal-help" class="button call-modal"><button>Help</button></a>
+  </div>
+
+  <div id="main">
+    <div id="simple">
+      <label>Base characters</label>
+      <input id="rbinput" type="text" size="25" placeholder="Input base characters here">
+      <label>Ruby text</label>
+      <input id="rtinput" type="text" size="25" placeholder="Input ruby text here">
     </div>
+    <div id="complex" style="display:none">
+      <textarea id="complexin" rows=10 cols=40 placeholder="Input base characters and ruby text here"></textarea>
+    </div>
+    <div id="convert_buttons">
+      <button type="submit">Rubify</button>
+      <button type="button">Demo</button>
+    </div>
+  </div>
 
-    <div id="main">
-      <div id="simple">
-        <label>Base characters</label>
-        <input id="rbinput" type="text" size="25" placeholder="Input base characters here">
-        <label>Ruby text</label>
-        <input id="rtinput" type="text" size="25" placeholder="Input ruby text here">
-      </div>
-      <div id="complex" style="display:none">
-        <textarea id="complexin" rows=10 cols=40 placeholder="Input base characters and ruby text here"></textarea>
-      </div>
-      <div id="convert_buttons">
-        <button type="submit" onclick="rubify()">Rubify</button>
-        <button type="button" onclick="demo()">Demo</button>
+  <div id="output">
+    <div id="textout">&nbsp;</div>
+    <button id="revealhtml" style="display:none">Show HTML</button><br>
+    <button id="savepng" style="display:none">Save PNG</button>
+    <button id="savesvg" style="display:none">Save SVG</button><br>
+    <textarea id="htmlcode" style="display:none">&nbsp;</textarea><br>
+  </div>
+
+  <style id=style_rt_size></style>
+  <style id=style_rt_col></style>
+
+  <section class="modal--show" id="modal-options" tabindex="-1" role="dialog" aria-labelledby="modal-label"
+    aria-hidden="true">
+    <div class="modal-inner">
+      <header>
+        <h2 id="modal-label">Options</h2>
+      </header>
+      <div class="modal-content">
+
+        <form id="inmode">
+          <label>Input Mode</label>
+          <input type="radio" name="inputmode" value="simple" checked="checked">Simple<br>
+          <input type="radio" name="inputmode" value="complex">Complex
+        </form>
+
+        <form id="rtPos">
+          <label>Ruby position</label>
+          <input type="radio" name="rbpos" value="over" checked="checked">Above<br>
+          <input type="radio" name="rbpos" value="under">Below
+        </form>
+
+        <form id="rtSize">
+          <label>Ruby text size</label>
+          <input type="radio" name="rtsize" value="large" checked="checked">Large<br>
+          <input type="radio" name="rtsize" value="small">Small
+        </form>
+
+        <form id="rbText">
+          <label>Base text size</label>
+          <input type="range" name="rbsize" value="2" min="0.5" max="10" step="0.1">
+        </form>
+
+        <label>Text color</label>
+        <input id="ptCol" class="picker" value="#000" data-jscolor="">
+
+        <label>Background color</label>
+        <input id="pbkCol" class="picker" value="#FFF" data-jscolor="">
+
+        <label>Ruby text color</label>
+        <input id="prtCol" class="picker" value="#000" data-jscolor="">
+
+        <label>Demo text language</label>
+        <select name="demolang" id="demolang">
+          <option value="0">Mandarin (Pinyin)</option>
+          <option value="1">Mandarin (Bopomofo)</option>
+          <option value="2">Cantonese (Jyutping)</option>
+          <option value="3">Japanese (Furigana)</option>
+          <option value="4">Korean (Hangul)</option>
+        </select>
+
       </div>
     </div>
+    <a href="#!" class="modal-close" title="Close this modal" data-dismiss="modal" data-close="Close">&times;</a>
+  </section>
 
-    <div id="output">
-      <div id="textout">&nbsp;</div>
-      <button id="revealhtml" style="display:none" onclick="toggleHtml()">Show HTML</button><br>
-      <button id="savepng" onclick="savePng()" style="display:none">Save PNG</button>
-      <button id="savesvg" onclick="saveSvg()" style="display:none">Save SVG</button><br>
-      <textarea id="htmlcode" style="display:none">&nbsp;</textarea><br>
+  <section class="modal--show" id="modal-help" tabindex="-1" role="dialog" aria-labelledby="modal-label"
+    aria-hidden="true">
+    <div class="modal-inner">
+      <header>
+        <h2 id="modal-label">Help</h2>
+      </header>
+      <div class="modal-content">
+        <p>
+          <span style="color:red;font-weight:bold">Rubify</span> is a fully offline, client-side, configurable
+          <a href="https://en.wikipedia.org/wiki/Ruby_character">ruby text</a> annotation generator
+          featuring multilingual demo text and PNG, SVG, and HTML output.
+        </p>
+        <p>
+          For technical background on ruby text see the
+          <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ruby">documentation</a>
+          on MDN.
+        </p>
+        <h2>Converting text</h2>
+        <p>
+          There are two different text conversion modes available:
+          <strong>Simple</strong> and <strong>Complex</strong>, depending on the type of
+          script and requirements of the text in question.
+        </p>
+        <h3>Simple mode</h3>
+        <p>
+          The most straightforward way to create ruby text is using
+          <strong>Simple</strong> mode.
+        </p>
+        <p>
+          Simple mode allows ruby text to be generated quickly and easily by inputting a
+          string of <em>base text</em> in the <strong>Base characters</strong> box and a
+          corresponding transcription for each character (separated by spaces) in the
+          <em>Ruby text</em> input box below. The two texts will be combined so that the
+          transcription is printed in small text above the base characters.
+        </p>
+        <p>
+          Click <strong>Demo</strong> and then <strong>Rubify</strong> to see an example
+          of Ruby text (default is Chinese text with Pinyin – this can be configured to
+          any of a number of different languages in the options menu).
+        </p>
+        <p>
+          Note that if the number of characters in the base text is different from the
+          number of words in the ruby text you will get an error – adjust the text in
+          the input boxes or try Complex mode instead.
+        </p>
+        <h3>Complex mode</h3>
+        <p>
+          For more complicated text, such as a single string of transcription
+          corresponding to multiple characters, you should use
+          <strong>Complex</strong> mode.
+        </p>
+        <ul>
+          <li>
+            For example, <code>漢字(hànzì)拼音(pīnyīn)</code> will show the pinyin for
+            the first two words together and the second words also together
+          </li>
+          <li>
+            The above example won’t work in simple mode because it parses input
+            character by character
+          </li>
+        </ul>
+        <p>
+          As another example, if you want to add phonetic guides to English text with
+          IPA, you will need to use Complex mode, for example:
+        </p>
+        <pre><code>English(/ɪŋɡɫɪʃ/) text(/tɛkst/) with(/wɪð/) IPA(/aɪ piː eɪ/)</code></pre>
+        <p>
+          For a more detailed guide and examples, consult the <a href="https://github.com/dohliam/rubify">Rubify
+            documentation</a>.
+      </div>
     </div>
+    <a href="#!" class="modal-close" title="Close this modal" data-dismiss="modal" data-close="Close">&times;</a>
+  </section>
 
-    <style id=style_rt_size></style>
-    <style id=style_rt_col></style>
-
-    <section class="modal--show" id="modal-options" tabindex="-1"
-      role="dialog" aria-labelledby="modal-label" aria-hidden="true">
-      <div class="modal-inner">
-        <header>
-          <h2 id="modal-label">Options</h2>
-        </header>
-        <div class="modal-content">
-
-          <form id="inmode" onchange="changeMode(this.inputmode.value)">
-            <label>Input Mode</label>
-            <input type="radio" name="inputmode" value="simple" checked="checked">Simple<br>
-            <input type="radio" name="inputmode" value="complex">Complex
-          </form>
-
-          <form onchange="rtPos(this.rbpos.value)">
-            <label>Ruby position</label>
-            <input type="radio" name="rbpos" value="over" checked="checked">Above<br>
-            <input type="radio" name="rbpos" value="under">Below
-          </form>
-
-          <form onchange="rtSize(this.rtsize.value)">
-            <label>Ruby text size</label>
-            <input type="radio" name="rtsize" value="large" checked="checked">Large<br>
-            <input type="radio" name="rtsize" value="small">Small
-          </form>
-
-          <form id="rbtest" onchange="rbSize(this.rbsize.value)" oninput="rbSize(this.rbsize.value)">
-            <label>Base text size</label>
-            <input type="range" name="rbsize" value="2" min="0.5" max="10" step="0.1">
-          </form>
-
-          <label>Text color</label>
-          <input class="picker" value="#000" data-jscolor="" onchange="textCol(this.value)" oninput="textCol(this.value)">
-
-          <label>Background color</label>
-          <input class="picker" value="#FFF" data-jscolor="" onchange="bgCol(this.value)" oninput="bgCol(this.value)">
-
-          <label>Ruby text color</label>
-          <input class="picker" value="#000" data-jscolor="" onchange="rtCol(this.value)" oninput="rtCol(this.value)">
-
-          <label>Demo text language</label>
-          <select name="demolang" id="demolang" onchange="demo()">
-            <option value="0">Mandarin (Pinyin)</option>
-            <option value="1">Mandarin (Bopomofo)</option>
-            <option value="2">Cantonese (Jyutping)</option>
-            <option value="3">Japanese (Furigana)</option>
-            <option value="4">Korean (Hangul)</option>
-          </select>
-
-        </div>
+  <section class="modal--show" id="modal-error" tabindex="-1" role="dialog" aria-labelledby="modal-label"
+    aria-hidden="true">
+    <div class="modal-inner">
+      <header>
+        <h2 id="modal-label">Error</h2>
+      </header>
+      <div class="modal-content">
+        <p><span style="color:red">Inputs are different lengths!</span> (The Base character length is not equal to the
+          number of words in the Ruby text input box.)</p>
+        <p>Please make sure that you have entered the same number of words in the <strong>Ruby text</strong> box as
+          there are characters in the <strong>Base characters</strong> box.</p>
+        <p>For example, if the <em>base characters</em> are <code>東京</code> (2 characters) then the <em>ruby text</em>
+          must be exactly 2 words/syllables/morae separated by a space (e.g., <code>Tō kyō</code> or <code>とう きょう</code>
+          and not <code>Tōkyō</code> or <code>とうきょう</code>). For more complicated situations, such as more than one
+          character per word of ruby text etc., you will need to use <strong>Complex mode</strong> instead.</p>
       </div>
-      <a href="#!" class="modal-close" title="Close this modal" data-dismiss="modal" data-close="Close">&times;</a>
-    </section>
+    </div>
+    <a href="#!" class="modal-close" title="Close this modal" data-dismiss="modal" data-close="Close">&times;</a>
+  </section>
 
-    <section class="modal--show" id="modal-help" tabindex="-1"
-      role="dialog" aria-labelledby="modal-label" aria-hidden="true">
-      <div class="modal-inner">
-        <header>
-          <h2 id="modal-label">Help</h2>
-        </header>
-        <div class="modal-content">
-          <p>
-            <span style="color:red;font-weight:bold">Rubify</span> is a fully offline, client-side, configurable
-            <a href="https://en.wikipedia.org/wiki/Ruby_character">ruby text</a> annotation generator
-            featuring multilingual demo text and PNG, SVG, and HTML output.
-          </p>
-          <p>
-            For technical background on ruby text see the
-            <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ruby">documentation</a>
-            on MDN.
-          </p>
-          <h2>Converting text</h2>
-          <p>
-            There are two different text conversion modes available:
-            <strong>Simple</strong> and <strong>Complex</strong>, depending on the type of
-            script and requirements of the text in question.
-          </p>
-          <h3>Simple mode</h3>
-          <p>
-            The most straightforward way to create ruby text is using
-            <strong>Simple</strong> mode.
-          </p>
-          <p>
-            Simple mode allows ruby text to be generated quickly and easily by inputting a
-            string of <em>base text</em> in the <strong>Base characters</strong> box and a
-            corresponding transcription for each character (separated by spaces) in the
-            <em>Ruby text</em> input box below. The two texts will be combined so that the
-            transcription is printed in small text above the base characters.
-          </p>
-          <p>
-            Click <strong>Demo</strong> and then <strong>Rubify</strong> to see an example
-            of Ruby text (default is Chinese text with Pinyin – this can be configured to
-            any of a number of different languages in the options menu).
-          </p>
-          <p>
-            Note that if the number of characters in the base text is different from the
-            number of words in the ruby text you will get an error – adjust the text in
-            the input boxes or try Complex mode instead.
-          </p>
-          <h3>Complex mode</h3>
-          <p>
-            For more complicated text, such as a single string of transcription
-            corresponding to multiple characters, you should use
-            <strong>Complex</strong> mode.
-          </p>
-          <ul>
-            <li>
-              For example, <code>漢字(hànzì)拼音(pīnyīn)</code> will show the pinyin for
-              the first two words together and the second words also together
-            </li>
-            <li>
-              The above example won’t work in simple mode because it parses input
-              character by character
-            </li>
-          </ul>
-          <p>
-            As another example, if you want to add phonetic guides to English text with
-            IPA, you will need to use Complex mode, for example:
-          </p>
-          <pre><code>English(/ɪŋɡɫɪʃ/) text(/tɛkst/) with(/wɪð/) IPA(/aɪ piː eɪ/)</code></pre>
-          <p>
-            For a more detailed guide and examples, consult the <a href="https://github.com/dohliam/rubify">Rubify documentation</a>.
-        </div>
+  <section class="modal--show" id="modal-empty" tabindex="-1" role="dialog" aria-labelledby="modal-label"
+    aria-hidden="true">
+    <div class="modal-inner">
+      <header>
+        <h2 id="modal-label">Error</h2>
+      </header>
+      <div class="modal-content">
+        <p><span style="color:red">No input text provided!</span> (You need to input text into both the <strong>Base
+            characters</strong> and <strong>Ruby text</strong> boxes, but either one or both of these is empty.)</p>
+        <p>Try pressing the <strong>Demo</strong> button to auto-fill the input boxes and then press
+          <strong>Rubify</strong> to convert it to ruby text.</p>
       </div>
-      <a href="#!" class="modal-close" title="Close this modal" data-dismiss="modal" data-close="Close">&times;</a>
-    </section>
+    </div>
+    <a href="#!" class="modal-close" title="Close this modal" data-dismiss="modal" data-close="Close">&times;</a>
+  </section>
 
-    <section class="modal--show" id="modal-error" tabindex="-1"
-      role="dialog" aria-labelledby="modal-label" aria-hidden="true">
-      <div class="modal-inner">
-        <header>
-          <h2 id="modal-label">Error</h2>
-        </header>
-        <div class="modal-content">
-          <p><span style="color:red">Inputs are different lengths!</span> (The Base character length is not equal to the number of words in the Ruby text input box.)</p>
-          <p>Please make sure that you have entered the same number of words in the <strong>Ruby text</strong> box as there are characters in the <strong>Base characters</strong> box.</p>
-          <p>For example, if the <em>base characters</em> are <code>東京</code> (2 characters) then the <em>ruby text</em> must be exactly 2 words/syllables/morae separated by a space (e.g., <code>Tō kyō</code> or <code>とう きょう</code> and not <code>Tōkyō</code> or <code>とうきょう</code>). For more complicated situations, such as more than one character per word of ruby text etc., you will need to use <strong>Complex mode</strong> instead.</p>
-        </div>
-      </div>
-      <a href="#!" class="modal-close" title="Close this modal" data-dismiss="modal" data-close="Close">&times;</a>
-    </section>
+  <footer><strong class="tr-string" id="view">View this project on <a
+        href="https://github.com/dohliam/rubify">Github</a>.</strong></footer>
 
-    <section class="modal--show" id="modal-empty" tabindex="-1"
-      role="dialog" aria-labelledby="modal-label" aria-hidden="true">
-      <div class="modal-inner">
-        <header>
-          <h2 id="modal-label">Error</h2>
-        </header>
-        <div class="modal-content">
-          <p><span style="color:red">No input text provided!</span> (You need to input text into both the <strong>Base characters</strong> and <strong>Ruby text</strong> boxes, but either one or both of these is empty.)</p>
-          <p>Try pressing the <strong>Demo</strong> button to auto-fill the input boxes and then press <strong>Rubify</strong> to convert it to ruby text.</p>
-        </div>
-      </div>
-      <a href="#!" class="modal-close" title="Close this modal" data-dismiss="modal" data-close="Close">&times;</a>
-    </section>
+</body>
 
-    <footer><strong class="tr-string" id="view">View this project on <a href="https://github.com/dohliam/rubify">Github</a>.</strong></footer>
-
-  </body>
 </html>
