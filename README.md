@@ -160,8 +160,8 @@ Examples of output in both formats can be found in the `output` directory.
 ## To do
 
 * Options:
-  * Character font-size slider
-  * Base text character spacing
+  * [x] Character font-size slider
+  * [x] Base text character spacing
 * Interface localization
 * Live update as you type?
 * Logo & favicon
@@ -172,6 +172,7 @@ Examples of output in both formats can be found in the `output` directory.
 * Save as image: [dom-to-image](https://github.com/tsayen/dom-to-image) by @tsayen ([MIT](https://github.com/tsayen/dom-to-image/blob/master/LICENSE))
 * Color picker: [jscolor](https://jscolor.com/) ([GPLv3](http://www.gnu.org/licenses/gpl-3.0.txt))
 * Modal windows: [CSS Modal](https://github.com/drublic/css-modal) by @drublic ([MIT](https://github.com/drublic/css-modal/blob/master/LICENSE))
+* Api (modularized) by [jomin398](https://github.com/jomin398)
 
 ## License
 
